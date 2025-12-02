@@ -1,0 +1,43 @@
+trigger: none
+pool: devops
+
+jobs:
+  - job:
+    displayName: initPlan
+    steps:
+      - task: TerraformInstaller@1
+        inputs:
+          terraformVersion: 'latest'
+
+      - task: TerraformTask@5
+        inputs:
+          provider: 'azurerm'
+          command: 'init'
+          workingDirectory: '$(System.DefaultWorkingDirectory)\environments'
+          backendServiceArm: 'wif'
+          backendAzureRmStorageAccountName: 'stroageaccountdotnet1'
+          backendAzureRmContainerName: 'container'
+          backendAzureRmKey: 'terraform.tfstate'
+
+
+      - task: TerraformTask@5
+        inputs:
+          provider: 'azurerm'
+          command: 'plan'
+          workingDirectory: '$(System.DefaultWorkingDirectory)\environments'
+          environmentServiceNameAzureRM: 'wif'
+      - task: TerraformTask@5
+        inputs:
+          provider: 'azurerm'
+          command: 'apply'
+          workingDirectory: '$(System.DefaultWorkingDirectory)\environments'
+          commandOptions: '-auto-approve'
+          environmentServiceNameAzureRM: 'wif'
+          
+      - task: TerraformTask@5
+        inputs:
+          provider: 'azurerm'
+          command: 'destroy'
+          workingDirectory: '$(System.DefaultWorkingDirectory)\environments'
+          commandOptions: '-auto-approve'
+          environmentServiceNameAzureRM: 'wif'
