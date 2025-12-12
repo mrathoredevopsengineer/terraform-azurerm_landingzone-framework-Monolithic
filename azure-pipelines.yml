@@ -13,7 +13,7 @@ jobs:
         inputs:
           provider: 'azurerm'
           command: 'init'
-          workingDirectory: '$(System.DefaultWorkingDirectory)\environments'
+          workingDirectory: '$(System.DefaultWorkingDirectory)\environments\Dev'
           backendServiceArm: 'wif'
           backendAzureRmStorageAccountName: 'stroageaccountdotnet1'
           backendAzureRmContainerName: 'container'
@@ -24,13 +24,13 @@ jobs:
         inputs:
           provider: 'azurerm'
           command: 'plan'
-          workingDirectory: '$(System.DefaultWorkingDirectory)\environments'
+          workingDirectory: '$(System.DefaultWorkingDirectory)\environments\Dev'
           environmentServiceNameAzureRM: 'wif'
       - task: TerraformTask@5
         inputs:
           provider: 'azurerm'
           command: 'apply'
-          workingDirectory: '$(System.DefaultWorkingDirectory)\environments'
+          workingDirectory: '$(System.DefaultWorkingDirectory)\environments\Dev'
           commandOptions: '-auto-approve'
           environmentServiceNameAzureRM: 'wif'
           
@@ -38,6 +38,6 @@ jobs:
         inputs:
           provider: 'azurerm'
           command: 'destroy'
-          workingDirectory: '$(System.DefaultWorkingDirectory)\environments'
+          workingDirectory: '$(System.DefaultWorkingDirectory)\environments\Dev'
           commandOptions: '-auto-approve'
           environmentServiceNameAzureRM: 'wif'
